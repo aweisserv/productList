@@ -7,10 +7,12 @@
 
 <div>
 
-  <div class="courses">
+  <!--**async pipes means an implicit way to create callback async functions in order to get data from an external source**-->
+  <!--**Creación de un pipe async dentro de un ciclo for**-->
+  <div class="courses" *ngIf = "courses$ | async as courses">
 
-    <course-card *ngFor="let course of courses"
-                 [course]="course">
+    <course-card *ngFor="let course of (courses$ | async)" 
+                  [course]="course">
 
       <course-image [src]="course.iconUrl"></course-image>
 
