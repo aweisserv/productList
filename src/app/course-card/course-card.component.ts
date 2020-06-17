@@ -1,18 +1,11 @@
 import {
-    AfterContentInit,
-    AfterViewInit,
     Component,
-    ContentChildren,
-    ElementRef,
     EventEmitter,
     Input,
     OnInit,
-    Output,
-    QueryList,
-    ViewEncapsulation
+    Output
 } from '@angular/core';
-import {Course} from '../model/course';
-import {CourseImageComponent} from '../course-image/course-image.component';
+import {Product} from '../model/product';
 import { CoursesService } from '../services/courses.service';
 
 @Component({
@@ -23,13 +16,13 @@ import { CoursesService } from '../services/courses.service';
 export class CourseCardComponent implements OnInit {
 
     @Input()
-    course: Course;
+    product: Product;
 
     @Input()
     cardIndex: number;
 
     @Output('courseChanged')
-    courseEmitter = new EventEmitter<Course>();
+    productEmitter = new EventEmitter<Product>();
 
 
     constructor( private coursesService: CoursesService ) {
@@ -41,11 +34,24 @@ export class CourseCardComponent implements OnInit {
 
     }
 
-    onSaveClicked(description:string) {
+    isImgVisible() {
+        return this.product && this.product.urlImg;
+      }
 
-        this.courseEmitter.emit({...this.course, description});
+    onSaveClicked() {
+        
+        console.log("Componente de la carta cliqueado");
 
+        return this.productEmitter.emit( { ...this.product } );
     }
 
+    cardClasses() {
+        return {
+        'beginner':this.product.variant.finalPrice <= 3000, 
+        'intermediate':this.product.variant.finalPrice > 3000 && this.product.variant.finalPrice <= 5000,
+        'advanced':this.product.variant.finalPrice > 5000,
+        'card-box':true
+        }    
+    };
 
 }

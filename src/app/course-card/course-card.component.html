@@ -1,29 +1,24 @@
-<div class="course-card" *ngIf="course" #container>
+<div class="card-box" *ngIf="product" 
+    [ngClass]="cardClasses()">
 
-  <div class="course-title">
-    {{ cardIndex || '' + ' ' + course.description }}
+  <img width="300" *ngIf="isImgVisible(); else noImage"
+        [src]="product.urlImg">
+
+        <ng-template #noImage>
+            <p><strong>Imagen no disponible</strong></p>
+        </ng-template>
+
+  <div class="card-title">
+    {{ product.name }}
   </div>
-
-  <ng-content select="course-image"
-              *ngIf="course.iconUrl"></ng-content>
 
   <div class="course-description">
 
-    Edit Title: <input #courseTitle [value]="course.description">
+    {{ product.variant.finalPrice | number:'1.0-0' }}
 
   </div>
 
-  <div class="course-category" [ngSwitch]="course.category">
-
-    <div class="category" *ngSwitchCase="'BEGINNER'">Beginner</div>
-
-    <div class="category" *ngSwitchCase="'INTERMEDIATE'">Intermediate</div>
-
-    <div class="category" *ngSwitchCase="'ADVANCED'">Advanced</div>
-
-  </div>
-
-  <button (click)="onSaveClicked(courseTitle.value)">Save Course</button>
+  <button class="card-button" (click)="onSaveClicked(product)">Añadir</button>
 
 </div>
 
